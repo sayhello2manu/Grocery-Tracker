@@ -165,6 +165,33 @@ namespace GroceryTracker
 
         private void Btn_Del_Item_Shopping_List_Click(object sender, RoutedEventArgs e)
         {
+            if (Lbx_Shopping.SelectedItem == null)
+            {
+                MessageBox.Show("Please select an item first to be deleted", "Error");
+                return;
+            }
+            else
+            {
+                del_event = true;
+               // items.Remove(Lbx_Shopping.SelectedItem as ItemToBuy);
+                Tbx_Search.Text = "";
+                MessageBox.Show("deleted from grocery list");
+            }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Cmb_Box.SelectedItem == Cmbo_Item_Name)
+            {
+                ObservableCollection<Item> sortedItems = new ObservableCollection<Item>((from item in items select item).OrderBy(item => item.itemName));
+                Lbx_items.ItemsSource = sortedItems;
+            }
+            else if (Cmb_Box.SelectedItem == Cmbo_Item_Quan)
+            {
+                ObservableCollection<Item> sortedItems = new ObservableCollection<Item>((from item in items select item).OrderBy(item => item.itemQuantity));
+                Lbx_items.ItemsSource = sortedItems;
+
+            }
 
         }
     }
