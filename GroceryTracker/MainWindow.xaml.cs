@@ -106,7 +106,6 @@ namespace GroceryTracker
                 MessageBox.Show(newItem.itemName + " added to shopping list");
             }
         }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if(storeData)
@@ -162,6 +161,11 @@ namespace GroceryTracker
             {
                 Lbx_items.SelectedItem = found_item;
             }
+        }
+
+        private void Btn_Del_Item_Shopping_List_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
