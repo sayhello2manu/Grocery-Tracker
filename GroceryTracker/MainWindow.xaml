@@ -1,0 +1,87 @@
+﻿<Window x:Class="GroceryTracker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GroceryTracker"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded" Closing="Window_Closing"
+        Title="Grocery Tracker" Height="500" Width="550">
+        <Grid Background="OldLace">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Grocery Tracker" 
+                   FontSize="20" FontStyle="Normal" FontFamily="Century Gothic" Margin="10,0,0,0" VerticalAlignment="Top" Height="29" Width="164"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock HorizontalAlignment="Left" Margin="10,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="12" FontStyle="Normal" Height="16" Width="220" Grid.Column="0">
+            <Run Text="Enter text to search item"/>
+            </TextBlock>
+            <TextBox HorizontalAlignment="Left" Height="23" x:Name="Tbx_Search" ToolTip="Enter text to filter item" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="220" Margin="10,80,0,0" TextChanged="Tbx_Search_TextChanged"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Grocery List" FontSize="16" VerticalAlignment="Top" Margin="10,100,0,0" FontWeight="Normal"/>
+            <Grid Margin="10,125,0,0" Grid.Column="0" Height="20" VerticalAlignment="Top">
+                <TextBlock Text="Item Name" Margin="0,0,0,0"/>
+                <TextBlock Text="Quantity" Margin="80,0,0,0"/>
+                <TextBlock Text="Expiry Date" Margin="140,0,0,0"/>
+            </Grid>
+                <ListBox x:Name="Lbx_items" Margin="10,145,20,0" VerticalAlignment="Top"  ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="220" Height="90" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type local:App}">
+                            <Grid>
+                                <TextBlock Text="{Binding itemName}"/>
+                                <TextBlock Text="{Binding itemQuantity}" Margin="80,0,0,0"/>
+                                <TextBlock Text="{Binding itemExpDate,StringFormat={}{0:MM/dd/yyyy}}" Margin="120,0,0,0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            <StackPanel HorizontalAlignment="Left" Height="93" DataContext="{Binding ElementName=Lbx_items , Path=SelectedItem }" VerticalAlignment="Top" Width="225" Margin="1.8,140,0,0" Grid.Column="1">
+                <StackPanel Margin="0,0,0,0" Height="20" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,0.2,0" Width="70" TextWrapping="Wrap" Text="Item Name"/>
+                    <TextBox Margin="0,0,6,0" Width="150" TextWrapping="Wrap" Name="Tbx_Name" Text="{Binding itemName}" TextChanged="Tbx_Name_TextChanged" />
+                </StackPanel>
+                <StackPanel Margin="0,0,0,0" Height="20" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,0.2,0" Width="70" TextWrapping="Wrap" Text="Quantity"/>
+                    <TextBox Margin="0,0,6,0" Width="150" TextWrapping="Wrap" Name="Tbx_Quan" Text="{Binding itemQuantity}" TextChanged="Tbx_Quan_TextChanged" />
+                </StackPanel>
+                <StackPanel DataContext="{Binding}" Margin="0,0,0,0" Height="30" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,0.2,0" Width="70" TextWrapping="Wrap" Text="Expiry Date"/>
+                    <DatePicker SelectedDate="{Binding itemExpDate}" Name="Dp_Date" Margin="0,0,0,0.4" Width="150" ></DatePicker>
+                </StackPanel>
+            </StackPanel>
+            <Button Content="Add To&#xa;Grocery List" x:Name="Btn_Add_Item" Click="Btn_Add_Item_Click" HorizontalAlignment="Left" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Visible" Width="66" Margin="10,240,0,0" Height="40"/>
+            <Button Content="Add To&#xa;Shop List" x:Name="Btn_Add_To_Shopping_List" Click="Btn_Add_To_Shopping_List_Click" HorizontalAlignment="Left" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Visible" Width="68" Margin="83,240,0,0" Height="40"/>
+            <Button Content="Delete From&#xa;Grocery List" x:Name="Btn_Del_Item" Click="Btn_Del_Item_Click"
+             HorizontalAlignment="Left" VerticalAlignment="Top" 
+             ScrollViewer.VerticalScrollBarVisibility="Visible" Width="68" Margin="158,240,20,0" Height="40"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Shooping List" FontSize="16" VerticalAlignment="Top" Margin="10,287,0,0" FontWeight="Normal"/>
+            <Grid Margin="10,310,0,0" Grid.Column="0" Height="20" VerticalAlignment="Top">
+                <TextBlock Text="Item Name" Margin="0,0,0,0"/>
+            </Grid>
+            <ListBox x:Name="Lbx_Shopping" DataContext="{Binding}" ItemsSource="{Binding}"  HorizontalAlignment="Left" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Visible" Width="220" SelectionChanged="Lbx_Shopping_SelectionChanged" Margin="10,330,0,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:App}">
+                        <Grid>
+                            <TextBlock Text="{Binding itemName}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="65,35,20,0" Height="27">
+                <ComboBoxItem x:Name="Cmbo_Item_Name" >Item Name</ComboBoxItem>
+                <ComboBoxItem>Quantity</ComboBoxItem>
+                <ComboBoxItem>Expiry Date</ComboBoxItem>
+                <ComboBoxItem IsSelected="True"></ComboBoxItem>
+            </ComboBox>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Sort By" FontSize="12" VerticalAlignment="Top" Margin="10,35,20,0"/>
+
+        </Grid>
+    </Grid>
+</Window>
